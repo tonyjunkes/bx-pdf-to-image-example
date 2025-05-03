@@ -1,0 +1,11 @@
+{
+    "name":"bx-pdf-to-image-example",
+    "app":{
+        "cfengine":"boxlang"
+    },
+    "web":{
+        "http":{
+            "port":8520
+        }
+    }
+}

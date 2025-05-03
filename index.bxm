@@ -1,0 +1,46 @@
+<h1>CFML PDF to Image Example</h1>
+
+<!--- File conversion --->
+<bx:script>
+    import java:org.apache.pdfbox.Loader;
+    import bx:classes.PDFService;
+    pdfFile = fileReadBinary(expandPath("/resources/sample.pdf"));
+    //dump(Loader::loadPDF(pdfFile));
+    pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "jpg");
+</bx:script>
+
+<!--- Render Example 1 --->
+<h2>Render First 3 Pages</h2>
+<bx:set pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "jpg", pageLimit = 3)>
+<bx:loop array="#pages#" item="page" index="index">
+    <bx:output>
+        <h3>Page #index#</h3>
+        <img src="data:image/jpg;base64,#binaryEncode(page, "base64")#" alt="Page #index#" />
+    </bx:output>
+</bx:loop>
+
+<!--- Render Example 2 --->
+<h2>Render Starting At Page 3 &amp; Stop After the 2nd Page</h2>
+<bx:set pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "jpg", pageStart = 3, pageLimit = 2)>
+<bx:loop array="#pages#" item="page" index="index">
+    <bx:output>
+        <h3>Page #index#</h3>
+        <img src="data:image/jpg;base64,#binaryEncode(page, "base64")#" alt="Page #index#" />
+    </bx:output>
+</bx:loop>
+
+<!--- Render Example 3 --->
+<h2>Render All Pages</h2>
+<bx:set pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "jpg")>
+<bx:loop array="#pages#" item="page" index="index">
+    <bx:output>
+        <h3>Page #index#</h3>
+        <img src="data:image/jpg;base64,#binaryEncode(page, "base64")#" alt="Page #index#" />
+    </bx:output>
+</bx:loop>
+
+<!--- Render Example 4 --->
+<h2>Write Generated Images Back to PDF</h2>
+<bx:set pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "png")>
+<bx:set PDFService::imagesToPDF(images = pages, outputFile = expandPath("/output/images.pdf"))>
+<p>Images written to: <a href="/output/images.pdf">images.pdf</a></p>
