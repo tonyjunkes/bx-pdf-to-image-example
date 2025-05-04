@@ -1,11 +1,9 @@
-<h1>CFML PDF to Image Example</h1>
+<h1>BoxLang PDF to Image Example</h1>
 
 <!--- File conversion --->
 <bx:script>
-    import java:org.apache.pdfbox.Loader;
     import bx:classes.PDFService;
     pdfFile = fileReadBinary(expandPath("/resources/sample.pdf"));
-    //dump(Loader::loadPDF(pdfFile));
     pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "jpg");
 </bx:script>
 
@@ -41,6 +39,6 @@
 
 <!--- Render Example 4 --->
 <h2>Write Generated Images Back to PDF</h2>
-<bx:set pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "png")>
+<bx:set pages = PDFService::pdfToImage(pdfFile = pdfFile, imageFormat = "jpg")>
 <bx:set PDFService::imagesToPDF(images = pages, outputFile = expandPath("/output/images.pdf"))>
 <p>Images written to: <a href="/output/images.pdf">images.pdf</a></p>

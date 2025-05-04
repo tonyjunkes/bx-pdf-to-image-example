@@ -5,10 +5,12 @@ import java:org.apache.pdfbox.rendering.PDFRenderer;
 import java:org.apache.pdfbox.pdmodel.PDDocument;
 import java:org.apache.pdfbox.pdmodel.PDPage;
 import java:org.apache.pdfbox.pdmodel.PDPageContentStream;
+import java:org.apache.pdfbox.pdmodel.common.PDRectangle;
 import java:org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 @displayname("PDF Service")
 @output(false)
+@singleton(true)
 class {
 	/**
 	 * Constructor
@@ -127,28 +129,27 @@ class {
 
 			// Add each image to a new page
 			for (var image in arguments.images) {
-				// Create a new page
-				var page = new PDPage();
-				document.addPage(page);
-
 				// Add the image to the page
-				var contentStream = new PDPageContentStream(document, page);
 				var ximage = PDImageXObject::createFromByteArray(document, image, "");
 
 				// Calculate the scale to fit the image on the page if necessary
-				var scaleX = page.getMediaBox().getWidth() / ximage.getWidth();
-				var scaleY = page.getMediaBox().getHeight() / ximage.getHeight();
-				var scale = min(scaleX, scaleY);
+				var width = ximage.getWidth();
+				var height = ximage.getHeight();
+				var mediaBox = new PDRectangle(width, height);
+				var page = new PDPage(mediaBox);
+				document.addPage(page);
 
-				dump(ximage);
+				var contentStream = new PDPageContentStream(document, page);
+
+				//dump(ximage);
 
 				// Draw the image
 				contentStream.drawImage(
 					ximage,
-					0 castAs float,
-					0 castAs float,
-					(ximage.getWidth() * scale) castAs float,
-					(ximage.getHeight() * scale) castAs float
+					(0 castAs float).floatValue(),
+					(0 castAs float).floatValue(),
+					(width castAs float).floatValue(),
+					(height castAs float).floatValue()
 				);
 				contentStream.close();
 			}
@@ -163,7 +164,6 @@ class {
 		finally {
 			// Close streams
 			document.close();
-			contentStream.close();
 		}
 	}
 }

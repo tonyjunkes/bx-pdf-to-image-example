@@ -5,6 +5,7 @@
 *.idea
 
 # Other
+.DS_Store
 WEB-INF
 logs
 lib
