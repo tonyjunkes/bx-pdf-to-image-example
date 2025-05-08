@@ -12,7 +12,6 @@ The example code provides a class with a function, `pdfToImage`, that allows for
 #### Loading the class
 ```js
 import bx:classes.PDFService;
-PDFService = new PDFService();
 pdfFile = fileReadBinary(expandPath("/resources/sample.pdf"));
 ```
 

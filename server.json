@@ -1,7 +1,7 @@
 {
     "name":"bx-pdf-to-image-example",
     "app":{
-        "cfengine":"boxlang"
+        "cfengine":"boxlang@be"
     },
     "web":{
         "http":{
